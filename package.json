@@ -1,0 +1,20 @@
+{
+  "name": "dsckiitbot",
+  "version": "0.0.1",
+  "description": "A discord bot for DSCKIIT Public Discord Server",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/bot.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ansi-colors": "^4.1.1",
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.18.0",
+    "fs": "0.0.1-security",
+    "nodemon": "^2.0.7"
+  }
+}
