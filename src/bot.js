@@ -10,6 +10,10 @@ const { registerCommands, registerEvents } = require('./utils/registry');
     // client.on('message', (message)=>{
     
     // });
+
+//     client.on("messageReactionAdd",(reaction , user)=>{
+// reaction.message.guild.channels.cache.so
+//     }   );
     await registerEvents(client, '../events');
     await registerCommands(client, '../commands');
 })();
