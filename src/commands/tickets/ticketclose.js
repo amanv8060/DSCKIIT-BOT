@@ -75,34 +75,47 @@ module.exports = {
     if (!message.channel.name.includes("ticket-"))
       return message.channel.send("You cannot use that here!");
     let channel = message.channel;
-    const user = message.guild.members.cache.find(
-      (user) => user.id === message.channel.name.substring(7)
-    );
+    let user;
+    await message.guild.members
+      .fetch(message.channel.name.substring(7))
+      .then((member) => {
+        user = member;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // console.log(user1);
+    // const user = message.guild.members.cache.find(
+    //   (user) => user.id === message.channel.name.substring(7)
+    // );
     const messages = await fetchMessages(channel);
     let content = await generateContent(messages);
-    // channel.messages.fetch({ limit: 80 })
-    // .then(function (messages)  {
-    // let content = messages
-    //   .map((message) => message.content && message.content)
-    //   .join("\n");
+    // // channel.messages.fetch({ limit: 80 })
+    // // .then(function (messages)  {
+    // // let content = messages
+    // //   .map((message) => message.content && message.content)
+    // //   .join("\n");
 
-    //Removed use of database
+    // //Removed use of database
 
-    // const db = new Database("data/ticketsSettings.db", {
-    //   verbose: console.log,
-    // });
-    // const row = db
-    //   .prepare("SELECT * from servers WHERE guildid = ?")
-    //   .get(message.channel.guild.id);
-
-    user
-      .send(`Transcript for your ticket in ${message.guild.name} Server`)
-      .catch((err) => {});
-    user
-      .send({
-        files: [{ name: "test.txt", attachment: Buffer.from(content) }],
-      })
-      .catch((err) => {});
+    // // const db = new Database("data/ticketsSettings.db", {
+    // //   verbose: console.log,
+    // // });
+    // // const row = db
+    // //   .prepare("SELECT * from servers WHERE guildid = ?")
+    // //   .get(message.channel.guild.id);
+    if (!user) {
+      message.channel.send("Error finding the user or user has left the server");
+    } else {
+      await user
+        .send(`Transcript for your ticket in ${message.guild.name} Server`)
+        .catch((err) => {});
+      await user
+        .send({
+          files: [{ name: "test.txt", attachment: Buffer.from(content) }],
+        })
+        .catch((err) => {});
+    }
     message.channel.send(
       `I have dmed you transcript if your dms are opened. Deleting channel in 30 seconds`
     );
