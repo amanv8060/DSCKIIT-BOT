@@ -24,6 +24,7 @@ module.exports = {
         { name: "Uptime", value:`${days}d ${hours}h ${minutes}m ${seconds}s` },
       ]);
     message.channel.send(embed);
+    // message.channel.send("Open Source Contributions are always welcome");
   },
   aliases: [],
 

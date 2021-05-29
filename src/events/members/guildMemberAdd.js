@@ -1,5 +1,5 @@
 module.exports = (client, member) => {
-//   console.log("Guild member add was registered.");
+  //   console.log("Guild member add was registered.");
   const channel = member.guild.channels.cache.find(
     (ch) => ch.name === "welcome"
   );

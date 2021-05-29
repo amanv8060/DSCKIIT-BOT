@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 
+const data = require("../../../data/data.json");
 const Database = require("better-sqlite3");
 
 async function generateContent(messages) {
@@ -26,7 +27,7 @@ async function generateContent(messages) {
         }
         if (message.attachments.size) {
           const attachments = message.attachments.map((xyz) => xyz.url);
-          content+=`\nAttachments ${attachments}`;
+          content += `\nAttachments ${attachments}`;
         }
         return content;
       })
@@ -85,12 +86,14 @@ module.exports = {
     //   .map((message) => message.content && message.content)
     //   .join("\n");
 
-    const db = new Database("data/ticketsSettings.db", {
-      verbose: console.log,
-    });
-    const row = db
-      .prepare("SELECT * from servers WHERE guildid = ?")
-      .get(message.channel.guild.id);
+    //Removed use of database
+
+    // const db = new Database("data/ticketsSettings.db", {
+    //   verbose: console.log,
+    // });
+    // const row = db
+    //   .prepare("SELECT * from servers WHERE guildid = ?")
+    //   .get(message.channel.guild.id);
 
     user
       .send(`Transcript for your ticket in ${message.guild.name} Server`)
@@ -108,12 +111,13 @@ module.exports = {
       files: [{ name: "test.txt", attachment: Buffer.from(content) }],
     });
     const logchannel = message.guild.channels.cache.find(
-      (channel) => channel.id === row.logChannelId
+      (channel) => channel.id === data["logChannelId"]
     );
-    logchannel.send(`${user.displayName}`, {
-      files: [{ name: "test.txt", attachment: Buffer.from(content) }],
-    });
-    // });
+    if (!logchannel) message.channel.send("Log channel not found");
+    else
+      logchannel.send(`${user.displayName}`, {
+        files: [{ name: "test.txt", attachment: Buffer.from(content) }],
+      });
     setTimeout(function () {
       message.channel.delete();
     }, 30000);

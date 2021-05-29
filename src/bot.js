@@ -2,7 +2,7 @@ require('dotenv').config();
 const discord = require('discord.js');
 const message = require('./events/message/message');
 const client = new discord.Client({ partials: ['MESSAGE', 'REACTION']});
-const { registerCommands, registerEvents } = require('./utils/registry');
+const { registerCommands, registerEvents , createDb } = require('./utils/registry');
 (async () => {
     client.login(process.env.BOT_TOKEN);
     client.commands = new Map();
@@ -16,4 +16,5 @@ const { registerCommands, registerEvents } = require('./utils/registry');
 //     }   );
     await registerEvents(client, '../events');
     await registerCommands(client, '../commands');
+
 })();

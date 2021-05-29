@@ -2,7 +2,7 @@
   "name": "dsckiitbot",
   "version": "0.0.2",
   "description": "A discord bot for DSCKIIT Public Discord Server",
-  "main": "bot.js",
+  "main": "src/bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/bot.js"

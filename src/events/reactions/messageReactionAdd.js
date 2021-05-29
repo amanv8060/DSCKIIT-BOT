@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const Database = require("better-sqlite3");
+const data=require("../../../data/data.json");
 
 module.exports = async (client, reaction, user) => {
   // console.log(reaction);
@@ -7,11 +8,15 @@ module.exports = async (client, reaction, user) => {
   if (reaction.partial) await reaction.fetch();
   if (reaction.message.partial) await reaction.message.fetch();
   if (user.bot) return;
-  const db = new Database("data/ticketsSettings.db", {
-    verbose: console.log,
-  });
-  const row = db.prepare("SELECT * from servers WHERE guildid = ?").get(reaction.message.channel.guild.id);
-  let ticketid = row.messageid;
+
+  //Use of db replaces with a json file
+
+  // const db = new Database("data/ticketsSettings.db", {
+  //   verbose: console.log,
+  // });
+  // const row = db.prepare("SELECT * from servers WHERE guildid = ?").get(reaction.message.channel.guild.id);
+  // let ticketid = row.messageid;
+  let ticketid=data["ticketMessageId"]
   if (!ticketid) return;
   if (reaction.message.id == ticketid && reaction.emoji.name == "🎫") {
     if (
@@ -40,8 +45,9 @@ module.exports = async (client, reaction, user) => {
               allow: ["SEND_MESSAGES", "VIEW_CHANNEL"],
             },
           ],
-          type: "text",
-        })
+          type: "text",  parent:data["ticketCategoryId"]
+        }
+      ,)
         .then(async (channel) => {
           channel.send(
             `<@${user.id}>`,
@@ -52,7 +58,7 @@ module.exports = async (client, reaction, user) => {
               )
               .setColor("RANDOM")
           );
-        });
+        }).catch(err => {console.log(err)});
     }
   }
 };
