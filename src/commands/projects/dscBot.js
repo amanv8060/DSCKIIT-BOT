@@ -1,10 +1,11 @@
 module.exports = {
-    name: 'lms',
-    description: 'Tells About Library Management System',
+    name: 'dscbot',
+    description: 'Tells About This Bot',
     run: async (client, message, args) => {
         message.author
             .send(
-                'Hey there , Let me tell me you a long Story , how This project began , who created and all '
+                'Hey there ,This is a Bot created to cater the general Moderation and ticketing needs of our server. ' +
+                    'The codebase for this bot is open-source , You can check it out here : https://github.com/amanv8060/dsckiitbot '
             )
             .then((val) => {
                 message.channel.send('Sent You a dm')
@@ -15,5 +16,5 @@ module.exports = {
                 )
             })
     },
-    aliases: [],
+    aliases: ['dsckiitbot'],
 }

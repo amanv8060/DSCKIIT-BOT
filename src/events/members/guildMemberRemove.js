@@ -4,7 +4,5 @@ module.exports = (client, member) => {
         (ch) => ch.name === 'welcome'
     )
     if (!channel) return
-    channel.send(
-        `Hey ${member} , Welcome to the  DSC KIIT Public Server , Pleas go through the rules once`
-    )
+    channel.send(`${member} , just left us :(`)
 }
