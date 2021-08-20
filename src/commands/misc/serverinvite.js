@@ -8,7 +8,7 @@ module.exports = {
             .setDescription(
                 "You asked and here it is : https://discord.gg/NAyQZpq7GM"
             );
-        message.channel.send({ embed: [embed] });
+        message.channel.send({ embeds: [embed] });
     },
     aliases: []
 };

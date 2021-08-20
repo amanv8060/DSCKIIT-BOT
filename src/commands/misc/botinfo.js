@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const {version } = require("../../../package.json");
 module.exports = {
     name: "botinfo",
     // eslint-disable-next-line no-unused-vars
@@ -19,7 +20,7 @@ module.exports = {
                 },
                 {
                     name: "Version",
-                    value: process.env.npm_package_version
+                    value: version
                 },
                 {
                     name: "Uptime",
