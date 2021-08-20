@@ -1,9 +1,7 @@
-const Discord = require("discord.js")
-
 module.exports = {
     name: "ticketsetup",
     description: "ticketsetup!",
-    run: async (client, message, args) => {
+    run: async (client, message,) => {
         if (!message.member.hasPermission("ADMINISTRATOR"))
             return message.reply(`Become a admin MAN`)
         let channel = message.mentions.channels.first()
@@ -52,7 +50,7 @@ module.exports = {
         //   logChannel: logChannel.id,
         // });
 
-        sent.react("🎫")
+        // sent.react("🎫")
 
         message.channel.send(
             "Ticket System Setup Done! Ask the DSC peeps to add these to config files"

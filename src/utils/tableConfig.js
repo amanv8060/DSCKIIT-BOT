@@ -1,6 +1,6 @@
 module.exports = {
     columnDefault: {
-        width: 30,
+        width: 30
     },
     columnCount: 3,
     border: {
@@ -21,6 +21,6 @@ module.exports = {
         joinBody: `─`,
         joinLeft: `├`,
         joinRight: `┤`,
-        joinJoin: `┼`,
-    },
-}
+        joinJoin: `┼`
+    }
+};

@@ -1,98 +1,97 @@
-const Discord = require('discord.js')
-
-const data = require('../../../data/data.json')
+const data = require("../../../data/data.json");
 
 async function generateContent(messages) {
     const generatedMessages = (
         await Promise.all(
             messages.map(async (message) => {
-                let content = `**${message.author.username}:** ${message.content}`
+                let content = `**${message.author.username}:** ${message.content}`;
 
                 if (message.reactions.cache.size) {
                     const reactions = (
                         await Promise.all(
                             Array.from(message.reactions.cache.entries()).map(
                                 async ([emoji, { users }]) => {
-                                    const reaction = await users.fetch()
+                                    const reaction = await users.fetch();
                                     return ` * ${emoji} ${Array.from(
                                         reaction.values()
                                     )
                                         .map(({ username }) => `@${username}`)
-                                        .join(', ')}`
+                                        .join(", ")}`;
                                 }
                             )
                         )
-                    ).join('\n')
+                    ).join("\n");
 
-                    content += `\n${reactions}`
+                    content += `\n${reactions}`;
                 }
                 if (message.attachments.size) {
                     const attachments = message.attachments.map(
                         (xyz) => xyz.url
-                    )
-                    content += `\nAttachments ${attachments}`
+                    );
+                    content += `\nAttachments ${attachments}`;
                 }
-                return content
+                return content;
             })
         )
-    ).join('\n\n')
+    ).join("\n\n");
 
-    return `Transcript\n\n${generatedMessages}\n`
+    return `Transcript\n\n${generatedMessages}\n`;
 }
 
 function getTranscriptMessages(messages) {
-    return messages.sort((a, b) => a.createdTimestamp - b.createdTimestamp)
+    return messages.sort((a, b) => a.createdTimestamp - b.createdTimestamp);
 }
 
 async function fetchMessages(channel) {
-    let messages = []
+    let messages = [];
 
     // Discord's API limits fetching messages to 50 at a time. Continue requesting batches
     // until we have no messages
+    // eslint-disable-next-line no-constant-condition
     while (true) {
         const batch = (
             await channel.messages.fetch(
                 messages.length ? { before: messages[0].id } : undefined
             )
-        ).array()
+        ).array();
 
         if (!batch.length) {
-            break
+            break;
         }
 
-        messages = [...getTranscriptMessages(batch), ...messages]
+        messages = [...getTranscriptMessages(batch), ...messages];
     }
 
     return messages.map((message) => {
         message.content = message.content.replace(
             /<@!?(\d+)>/g,
             (match, p1) => `@${channel.client.users.cache.get(p1).username}`
-        )
-        return message
-    })
+        );
+        return message;
+    });
 }
 module.exports = {
-    name: 'ticketclose',
-    description: 'Close the ticket!',
-    run: async (client, message, args) => {
-        if (!message.channel.name.includes('ticket-'))
-            return message.channel.send('You cannot use that here!')
-        let channel = message.channel
-        let user
+    name: "ticketclose",
+    description: "Close the ticket!",
+    run: async (client, message) => {
+        if (!message.channel.name.includes("ticket-"))
+            return message.channel.send("You cannot use that here!");
+        let channel = message.channel;
+        let user;
         await message.guild.members
             .fetch(message.channel.name.substring(7))
             .then((member) => {
-                user = member
+                user = member;
             })
             .catch((error) => {
-                console.log(error)
-            })
+                console.log(error);
+            });
         // console.log(user1);
         // const user = message.guild.members.cache.find(
         //   (user) => user.id === message.channel.name.substring(7)
         // );
-        const messages = await fetchMessages(channel)
-        let content = await generateContent(messages)
+        const messages = await fetchMessages(channel);
+        let content = await generateContent(messages);
         // // channel.messages.fetch({ limit: 80 })
         // // .then(function (messages)  {
         // // let content = messages
@@ -109,42 +108,46 @@ module.exports = {
         // //   .get(message.channel.guild.id);
         if (!user) {
             message.channel.send(
-                'Error finding the user or user has left the server'
-            )
+                "Error finding the user or user has left the server"
+            );
         } else {
             await user
                 .send(
                     `Transcript for your ticket in ${message.guild.name} Server`
                 )
-                .catch((err) => {})
+                .catch((err) => {
+                    console.log(err);
+                });
             await user
                 .send({
                     files: [
-                        { name: 'test.txt', attachment: Buffer.from(content) },
-                    ],
+                        { name: "test.txt", attachment: Buffer.from(content) }
+                    ]
                 })
-                .catch((err) => {})
+                .catch((err) => {
+                    console.log(err);
+                });
         }
         message.channel.send(
             `I have dmed you transcript if your dms are opened. Deleting channel in 30 seconds`
-        )
+        );
         message.channel.send(
             `Just in case Your dms are closed here is transcript`
-        )
+        );
         message.channel.send({
-            files: [{ name: 'test.txt', attachment: Buffer.from(content) }],
-        })
+            files: [{ name: "test.txt", attachment: Buffer.from(content) }]
+        });
         const logchannel = message.guild.channels.cache.find(
-            (channel) => channel.id === data['logChannelId']
-        )
-        if (!logchannel) message.channel.send('Log channel not found')
+            (channel) => channel.id === data["logChannelId"]
+        );
+        if (!logchannel) message.channel.send("Log channel not found");
         else
             logchannel.send(`${user.displayName}`, {
-                files: [{ name: 'test.txt', attachment: Buffer.from(content) }],
-            })
+                files: [{ name: "test.txt", attachment: Buffer.from(content) }]
+            });
         setTimeout(function () {
-            message.channel.delete()
-        }, 30000)
+            message.channel.delete();
+        }, 30000);
     },
-    aliases: [],
-}
+    aliases: []
+};

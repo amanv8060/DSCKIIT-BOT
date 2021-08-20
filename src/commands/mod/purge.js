@@ -1,14 +1,14 @@
 module.exports = {
-    name: 'purge',
+    name: "purge",
     run: async (client, message, args) => {
-        if (!message.member.hasPermission('MANAGE_MESSAGES'))
+        if (!message.member.hasPermission("MANAGE_MESSAGES"))
             message.channel.send(
                 "You don't have permission to use that command."
-            )
+            );
         else {
-            let num = parseInt(args)
+            let num = parseInt(args);
             if (isNaN(num)) {
-                message.channel.send(`${typeof num}`)
+                message.channel.send(`${typeof num}`);
             } else {
                 // message.channel.send("ok");
                 await message.channel
@@ -16,15 +16,15 @@ module.exports = {
                     .then((messages) => {
                         message.channel.send(
                             `Bulk deleted ${messages.size} messages`
-                        )
+                        );
                     })
                     .catch((er) => {
-                        console.log(er)
-                    })
+                        console.log(er);
+                    });
             }
         }
     },
 
     aliases: [],
-    description: 'Bulk Deletes Message',
-}
+    description: "Bulk Deletes Message"
+};
