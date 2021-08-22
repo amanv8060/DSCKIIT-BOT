@@ -1,7 +1,7 @@
 module.exports = {
     name: "purge",
     run: async (client, message, args) => {
-        if (!message.member.hasPermission("MANAGE_MESSAGES"))
+        if (!message.member.permissions.has("MANAGE_MESSAGES"))
             message.channel.send(
                 "You don't have permission to use that command."
             );

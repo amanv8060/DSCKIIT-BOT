@@ -1,58 +1,61 @@
-const Discord = require('discord.js')
-const data = require('../../../data/data.json')
+const Discord = require("discord.js");
+const data = require("../../../data/data.json");
 
 module.exports = async (client, reaction, user) => {
-    if (user.partial) await user.fetch()
-    if (reaction.partial) await reaction.fetch()
-    if (reaction.message.partial) await reaction.message.fetch()
-    if (user.bot) return
+    if (user.partial) await user.fetch();
+    if (reaction.partial) await reaction.fetch();
+    if (reaction.message.partial) await reaction.message.fetch();
+    if (user.bot) return;
 
-    let ticketid = data['ticketMessageId']
-    if (!ticketid) return
-    if (reaction.message.id == ticketid && reaction.emoji.name == '🎫') {
+    let ticketid = data["ticketMessageId"];
+    if (!ticketid) return;
+    if (reaction.message.id == ticketid && reaction.emoji.name == "🎫") {
         if (
             reaction.message.guild.channels.cache.some(
-                (channel) => channel.name.toLowerCase() === 'ticket-' + user.id
+                (channel) => channel.name.toLowerCase() === "ticket-" + user.id
             )
         ) {
-            user.send('You already have a ticket')
+            reaction.users.remove(user);
+            user.send("You already have a ticket");
         } else {
-            reaction.users.remove(user)
+            reaction.users.remove(user);
             reaction.message.guild.channels
                 .create(`ticket-${user.id}`, {
                     permissionOverwrites: [
                         {
                             id: user.id,
-                            allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
+                            allow: ["SEND_MESSAGES", "VIEW_CHANNEL"]
                         },
                         {
                             id: reaction.message.guild.roles.everyone,
-                            deny: ['VIEW_CHANNEL'],
+                            deny: ["VIEW_CHANNEL"]
                         },
                         {
                             id: reaction.message.guild.roles.cache.find(
-                                (role) => role.name === 'Support Team'
+                                (role) => role.name === "Support Team"
                             ),
-                            allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
-                        },
+                            allow: ["SEND_MESSAGES", "VIEW_CHANNEL"]
+                        }
                     ],
-                    type: 'text',
-                    parent: data['ticketCategoryId'],
+                    type: "text",
+                    parent: data["ticketCategoryId"]
                 })
                 .then(async (channel) => {
-                    channel.send(
-                        `<@${user.id}>`,
-                        new Discord.MessageEmbed()
-                            .setTitle('Welcome to your ticket!')
-                            .setDescription(
-                                'Support Team will be with you shortly \n Use `?ticketclose command in this channel to close your ticket`'
-                            )
-                            .setColor('RANDOM')
-                    )
+                    const embed = new Discord.MessageEmbed()
+                        .setTitle("Welcome to your ticket!")
+                        .setDescription(
+                            "Support Team will be with you shortly \n Use `?ticketclose command in this channel to close your ticket`"
+                        )
+                        .setColor("RANDOM");
+
+                    channel.send({
+                        content: `<@${user.id}>`,
+                        embeds: [embed]
+                    });
                 })
                 .catch((err) => {
-                    console.log(err)
-                })
+                    console.log(err);
+                });
         }
     }
-}
+};

@@ -49,12 +49,10 @@ async function fetchMessages(channel) {
     // until we have no messages
     // eslint-disable-next-line no-constant-condition
     while (true) {
-        const batch = (
-            await channel.messages.fetch(
-                messages.length ? { before: messages[0].id } : undefined
-            )
-        ).array();
-
+        const temp = await channel.messages.fetch(
+            messages.length ? { before: messages[0].id } : undefined
+        );
+        const batch = [...temp.values()];
         if (!batch.length) {
             break;
         }
@@ -86,26 +84,8 @@ module.exports = {
             .catch((error) => {
                 console.log(error);
             });
-        // console.log(user1);
-        // const user = message.guild.members.cache.find(
-        //   (user) => user.id === message.channel.name.substring(7)
-        // );
         const messages = await fetchMessages(channel);
         let content = await generateContent(messages);
-        // // channel.messages.fetch({ limit: 80 })
-        // // .then(function (messages)  {
-        // // let content = messages
-        // //   .map((message) => message.content && message.content)
-        // //   .join("\n");
-
-        // //Removed use of database
-
-        // // const db = new Database("data/ticketsSettings.db", {
-        // //   verbose: console.log,
-        // // });
-        // // const row = db
-        // //   .prepare("SELECT * from servers WHERE guildid = ?")
-        // //   .get(message.channel.guild.id);
         if (!user) {
             message.channel.send(
                 "Error finding the user or user has left the server"
@@ -121,7 +101,10 @@ module.exports = {
             await user
                 .send({
                     files: [
-                        { name: "test.txt", attachment: Buffer.from(content) }
+                        {
+                            name: `${message.channel.name}.txt`,
+                            attachment: Buffer.from(content)
+                        }
                     ]
                 })
                 .catch((err) => {
@@ -135,15 +118,26 @@ module.exports = {
             `Just in case Your dms are closed here is transcript`
         );
         message.channel.send({
-            files: [{ name: "test.txt", attachment: Buffer.from(content) }]
+            files: [
+                {
+                    name: `${message.channel.name}.txt`,
+                    attachment: Buffer.from(content)
+                }
+            ]
         });
         const logchannel = message.guild.channels.cache.find(
             (channel) => channel.id === data["logChannelId"]
         );
         if (!logchannel) message.channel.send("Log channel not found");
         else
-            logchannel.send(`${user.displayName}`, {
-                files: [{ name: "test.txt", attachment: Buffer.from(content) }]
+            logchannel.send({
+                content: `${user.displayName}`,
+                files: [
+                    {
+                        name: `${message.channel.name}.txt`,
+                        attachment: Buffer.from(content)
+                    }
+                ]
             });
         setTimeout(function () {
             message.channel.delete();

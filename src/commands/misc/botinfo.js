@@ -1,9 +1,8 @@
 const { MessageEmbed } = require("discord.js");
-const {version } = require("../../../package.json");
+const { version } = require("../../../package.json");
 module.exports = {
     name: "botinfo",
-    // eslint-disable-next-line no-unused-vars
-    run: async (client, message, args) => {
+    run: async (client, message) => {
         let ms = client.uptime;
         let days = Math.floor(ms / 86400000);
         let hours = Math.floor(ms / 3600000) % 24;

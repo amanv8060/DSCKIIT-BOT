@@ -4,7 +4,7 @@ module.exports = {
     name: "askQuestion",
     description: "Asks a question",
     run: async (client, message, args) => {
-        if (!message.member.hasPermission("ADMINISTRATOR")) {
+        if (!message.member.permissions.has("ADMINISTRATOR")) {
             return message.reply("Become a admin MAN");
         }
         const questionChannel = message.guild.channels.cache.find(
