@@ -5,6 +5,6 @@ module.exports = (client, member) => {
     );
     if (!channel) return;
     channel.send(
-        `Hey ${member} , Welcome to the  DSC KIIT Public Server , Pleas go through the rules once`
+        `Hey ${member} , Welcome to the  DSC KIIT Public Server , Please go through the rules once`
     );
 };
