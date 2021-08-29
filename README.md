@@ -33,4 +33,20 @@ Other Steps
 
 > Note : Setting up Ticketing system is currently kind of non-user friendly , Integrating a database for making it user friendly is on the list.
 
+## Contributing
+
+Every contibution , even small are welcome : 
+
+1. If you find any bug , please feel free to create an issue.
+2. Pull Requests should be properly documented.
+3. Give me 24-48 hrs to respond.
+
+## Contributors
+
+<a href="https://github.com/amanv8060/dsckiitbot/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=amanv8060/dsckiitbot" />
+</a>
+
+#### Show some ❤️ by starring the repository!
+
 [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
