@@ -33,6 +33,53 @@ Other Steps
 
 > Note : Setting up Ticketing system is currently kind of non-user friendly , Integrating a database for making it user friendly is on the list.
 
+Code Structure: 
+
+- 📂 __dsckiitbot__
+   - 📄 [LICENSE](LICENSE)
+   - 📄 [Procfile](Procfile)
+   - 📄 [README.md](README.md)
+   - 📂 __data__
+     - 📄 [data.json](data/data.json)
+     - 📄 [dscdata.json](data/dscdata.json)
+     - 📄 [dsdata.json](data/dsdata.json)
+   - 📄 [package\-lock.json](package-lock.json)
+   - 📄 [package.json](package.json)
+   - 📂 __src__
+     - 📄 [bot.js](src/bot.js)
+     - 📂 __commands__
+       - 📂 __misc__
+         - 📄 [askQuestion.js](src/commands/misc/askQuestion.js)
+         - 📄 [botinfo.js](src/commands/misc/botinfo.js)
+         - 📄 [ping.js](src/commands/misc/ping.js)
+         - 📄 [serverinvite.js](src/commands/misc/serverinvite.js)
+         - 📄 [userinfo.js](src/commands/misc/userinfo.js)
+       - 📂 __mod__
+         - 📄 [ban.js](src/commands/mod/ban.js)
+         - 📄 [kick.js](src/commands/mod/kick.js)
+         - 📄 [purge.js](src/commands/mod/purge.js)
+       - 📂 __projects__
+         - 📄 [dscBot.js](src/commands/projects/dscBot.js)
+         - 📄 [lms.js](src/commands/projects/lms.js)
+       - 📂 __tickets__
+         - 📄 [ticketClose.js](src/commands/tickets/ticketClose.js)
+         - 📄 [ticketSetup.js](src/commands/tickets/ticketSetup.js)
+     - 📂 __events__
+       - 📂 __members__
+         - 📄 [guildMemberAdd.js](src/events/members/guildMemberAdd.js)
+         - 📄 [guildMemberRemove.js](src/events/members/guildMemberRemove.js)
+       - 📂 __message__
+         - 📄 [messageCreate.js](src/events/message/messageCreate.js)
+       - 📂 __misc__
+         - 📄 [ready.js](src/events/misc/ready.js)
+       - 📂 __reactions__
+         - 📄 [messageReactionAdd.js](src/events/reactions/messageReactionAdd.js)
+     - 📂 __utils__
+       - 📄 [registry.js](src/utils/registry.js)
+       - 📄 [tableConfig.js](src/utils/tableConfig.js)
+       - 📄 [validate.js](src/utils/validate.js)
+
+
 ## Contributing
 
 Every contibution , even small are welcome : 
