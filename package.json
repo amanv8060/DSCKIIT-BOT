@@ -1,6 +1,6 @@
 {
   "name": "dsckiitbot",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A discord bot for DSCKIIT Public Discord Server",
   "main": "src/bot.js",
   "scripts": {

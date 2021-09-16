@@ -9,5 +9,5 @@ module.exports = (client, member) => {
         (ch) => ch.name === "welcome"
     );
     if (!channel) return;
-    channel.send(`${member} , just left us :(`);
+    channel.send(`${member.user.tag} , just left us :(`);
 };
