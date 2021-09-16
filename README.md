@@ -57,7 +57,9 @@ Code Structure:
        - 📂 __mod__
          - 📄 [ban.js](src/commands/mod/ban.js)
          - 📄 [kick.js](src/commands/mod/kick.js)
+         - 📄 [listbans.js](src/commands/mod/listbans.js)
          - 📄 [purge.js](src/commands/mod/purge.js)
+         - 📄 [unban.js](src/commands/mod/unban.js)
        - 📂 __projects__
          - 📄 [dscBot.js](src/commands/projects/dscBot.js)
          - 📄 [lms.js](src/commands/projects/lms.js)
